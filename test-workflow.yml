@@ -1,0 +1,18 @@
+name: Remote Dispatch Action Responder
+
+on: [repository_dispatch]
+
+jobs:
+  ping-pong:
+    runs-on: [self-hosted, linux]
+    steps:
+      - name: Event Information
+        run: |
+          echo "Event '${{ github.event.action }}' received from '${{ github.event.client_payload.repository }}'"
+      - name: PONG - Dispatch response to received PING
+        if: github.event.action == 'ping'
+        run: |
+          curl -X POST https://atc-github.azure.cloud.bmw/Service-and-Repairs/cars-conwoy-infrastructure/tree/feature/workflow-to-configure-4wheels/.github/workflows/trigger-another-workflow.yml/dispatches \
+          -H 'Accept: application/vnd.github.everest-preview+json' \
+          -u "${{ secrets.PAT_USERNAME}}:${{secrets.PAT_TOKEN}}" \
+          --data '{"event_type": "pong", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'" }}'
