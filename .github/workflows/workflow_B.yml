@@ -25,9 +25,15 @@ jobs:
   myEvent:
     runs-on: ubuntu-latest
     steps:
-      - name: echo branch
+      - name: echo github.ref branch
         run: echo "my branch is '${{ github.ref }}'"
+        
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.event.client_payload.ref }}
       - run: echo ${{ github.event.client_payload.sha }}
+
+      - name: echo github.event.client_payload.ref branch
+        run: echo "my branch is '${{ github.event.client_payload.ref }}'"
+
+# hello chander
