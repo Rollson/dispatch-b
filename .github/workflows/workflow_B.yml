@@ -32,7 +32,10 @@ jobs:
         with:
           ref: ${{ github.event.client_payload.ref }}
       - run: echo ${{ github.event.client_payload.sha }}
-      - run: echo "my branch is '${{ github.event.client_payload.ref }}'"
+      # - run: echo "my branch is '${{ github.event.client_payload.ref }}'"
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
 
       # - name: echo github.event.client_payload.ref branch
       #   run: echo "my branch is '${{ github.event.client_payload.ref }}'"
